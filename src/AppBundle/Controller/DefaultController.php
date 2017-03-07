@@ -18,4 +18,22 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
         ]);
     }
+
+
+
+    /**
+     * @Route("/twig-test", name="homepage-test")
+     */
+    public function twigtestAction(Request $request)
+    {
+
+        return $this->render(':default:index.html.twig', array(
+            'name' => 'John DOE',
+            'days' => array('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'),
+            'html' => '<b>Ce texte n\'est pas en gras !</b>',
+            'date' => date('H:i:s d/m/Y'),
+            )
+        );
+    }
+
 }
