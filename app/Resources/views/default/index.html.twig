@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Symfony is awesome</title>
-    </head>
+{% extends "::layout.html.twig" %}
 
-    <body>
-        <h1>BIJOUR {{name|upper}}</h1>
+
+{% block title 'Accueil' %}
+
+
+
+{% block header %}
+    <h1>BIJOUR {{name|upper}}</h1>
+{% endblock %}
+
+{% block content %}
 
         <ul>
             {% for index, day in days %}
@@ -26,6 +29,4 @@
 
         <a href="{{ path('homepage-test') }}">Lien vers la page de test</a>
 
-
-    </body>
-</html>
+{% endblock %}
