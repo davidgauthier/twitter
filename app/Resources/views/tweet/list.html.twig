@@ -1,0 +1,27 @@
+{% extends "::layout.html.twig" %}
+
+
+{% block title 'Accueil' %}
+
+
+
+{% block header %}
+    <h1>Liste des tweets</h1>
+{% endblock %}
+
+{% block content %}
+
+        <ul>
+            {% for index, tweet in listTweets %}
+                {% if loop.first %}
+                    <li>{{ index }} : {{ tweet.message }}</li>
+                {% else %}
+                    <li>{{ index|upper }} : {{ tweet.message|upper }}</li>
+                {% endif %}
+            {% else %}
+                <p>Aucun tweet</p>
+            {% endfor %}
+        </ul>
+
+
+{% endblock %}
