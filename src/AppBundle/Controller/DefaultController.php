@@ -27,6 +27,9 @@ class DefaultController extends Controller
     public function twigtestAction(Request $request)
     {
 
+        // Ici récup les tweets
+//        $tweets = ....
+
         return $this->render(':default:index.html.twig', array(
             'name' => 'John DOE',
             'days' => array('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'),
