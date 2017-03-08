@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tweet
+ * Tweet.
  *
  * @ORM\Table(name="tweet")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TweetRepository")
@@ -35,7 +35,6 @@ class Tweet
      */
     private $createdAt;
 
-
     /**
      * Tweet constructor.
      */
@@ -44,10 +43,8 @@ class Tweet
         $this->createdAt = new \DateTime();
     }
 
-
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -57,7 +54,7 @@ class Tweet
     }
 
     /**
-     * Set message
+     * Set message.
      *
      * @param string $message
      *
@@ -71,7 +68,7 @@ class Tweet
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string
      */
@@ -81,7 +78,7 @@ class Tweet
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -95,7 +92,7 @@ class Tweet
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -104,4 +101,3 @@ class Tweet
         return $this->createdAt;
     }
 }
-

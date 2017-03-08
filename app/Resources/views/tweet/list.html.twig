@@ -11,17 +11,23 @@
 
 {% block content %}
 
-        <ul>
             {% for index, tweet in listTweets %}
                 {% if loop.first %}
-                    <li>{{ index }} : {{ tweet.message }}</li>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{ index }} : {{ tweet.message }}
+                        </div>
+                    </div>
                 {% else %}
-                    <li>{{ index|upper }} : {{ tweet.message|upper }}</li>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{ index|upper }} : {{ tweet.message|upper }}
+                        </div>
+                    </div>
                 {% endif %}
             {% else %}
                 <p>Aucun tweet</p>
             {% endfor %}
-        </ul>
 
 
 {% endblock %}

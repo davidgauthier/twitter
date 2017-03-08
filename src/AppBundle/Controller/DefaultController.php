@@ -19,24 +19,20 @@ class DefaultController extends Controller
         ]);
     }
 
-
-
     /**
      * @Route("/twig-test", name="homepage-test")
      */
     public function twigtestAction(Request $request)
     {
-
         // Ici récup les tweets
 //        $tweets = ....
 
-        return $this->render(':default:index.html.twig', array(
+        return $this->render(':default:index.html.twig', [
             'name' => 'John DOE',
-            'days' => array('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'),
+            'days' => ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
             'html' => '<b>Ce texte n\'est pas en gras !</b>',
             'date' => date('H:i:s d/m/Y'),
-            )
+            ]
         );
     }
-
 }
