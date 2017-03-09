@@ -28,7 +28,6 @@ class TweetRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-
     /**
      * Retourne le tweet d'id $id de la base de données.
      *
@@ -45,5 +44,4 @@ class TweetRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

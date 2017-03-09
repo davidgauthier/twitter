@@ -3,11 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tweet;
+use AppBundle\Form\TweetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
-use AppBundle\Form\TweetType;
 
 class TweetController extends Controller
 {
@@ -54,20 +53,20 @@ class TweetController extends Controller
             $request->getSession()->getFlashBag()->add('notice', 'Tweet bien enregistrée.');
 
             // On redirige vers la page de visualisation du tweet nouvellement créé
-            return $this->redirectToRoute('app_tweet_view', array(
+            return $this->redirectToRoute('app_tweet_view', [
                 'id' => $tweet->getId(),
-            ));
+                ]
+            );
         }
 
         // À ce stade, le formulaire n'est pas valide car :
         // - Soit la requête est de type GET, donc le visiteur vient d'arriver sur la page et veut voir le formulaire
         // - Soit la requête est de type POST, mais le formulaire contient des valeurs invalides, donc on l'affiche de nouveau
-        return $this->render(':tweet:new.html.twig', array(
+        return $this->render(':tweet:new.html.twig', [
             'formTweet' => $formTweet->createView(),
-        ));
+            ]
+        );
     }
-
-
 
     /**
      * @Route("/tweet/{id}", name="app_tweet_view", methods={"GET"} )
@@ -79,19 +78,13 @@ class TweetController extends Controller
         // On récupère la liste des tweets
         $tweet = $tweetRepository->getTweetById($id);
 
-        if(null == $tweet)
+        if (null === $tweet) {
             throw  $this->createNotFoundException("Le tweet n'existe pas");
-
+        }
         // replace this example code with whatever you need
         return $this->render(':tweet:view.html.twig', [
                 'tweet' => $tweet,
             ]
         );
     }
-
-
-
-
-
-
 }
