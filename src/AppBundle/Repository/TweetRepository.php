@@ -27,4 +27,23 @@ class TweetRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    /**
+     * Retourne le tweet d'id $id de la base de données.
+     *
+     * @param int $id
+     *
+     * @return Tweet
+     */
+    public function getTweetById($id)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t')
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

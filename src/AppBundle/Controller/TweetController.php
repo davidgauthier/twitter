@@ -23,8 +23,32 @@ class TweetController extends Controller
 
         // replace this example code with whatever you need
         return $this->render(':tweet:list.html.twig', [
-            'listTweets' => $listTweets,
+                'listTweets' => $listTweets,
             ]
         );
     }
+
+
+
+    /**
+     * @Route("/tweet/{id}", name="app_tweet_view", methods={"GET"} )
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $tweetRepository = $this->getDoctrine()->getManager()->getRepository(Tweet::class);
+
+        // On récupère la liste des tweets
+        $tweet = $tweetRepository->getTweetById($id);
+
+        if(null == $tweet)
+            throw  $this->createNotFoundException("Le tweet n'existe pas");
+
+        // replace this example code with whatever you need
+        return $this->render(':tweet:view.html.twig', [
+                'tweet' => $tweet,
+            ]
+        );
+    }
+
+
 }

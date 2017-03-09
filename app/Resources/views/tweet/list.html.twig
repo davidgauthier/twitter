@@ -11,23 +11,27 @@
 
 {% block content %}
 
-            {% for index, tweet in listTweets %}
-                {% if loop.first %}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            {{ index }} : {{ tweet.message }}
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            {{ index|upper }} : {{ tweet.message|upper }}
-                        </div>
-                    </div>
-                {% endif %}
-            {% else %}
-                <p>Aucun tweet</p>
-            {% endfor %}
+    {% for index, tweet in listTweets %}
+        {% if loop.first %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{{ path('app_tweet_view', {'id': tweet.id}) }}">
+                        ({{ tweet.createdAt|date("d/m/Y H:i:s") }}) {{ index }} : {{ tweet.message }}
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{{ path('app_tweet_view', {'id': tweet.id}) }}">
+                        ({{ tweet.createdAt|date("d/m/Y H:i:s") }}) {{ index|upper }} : {{ tweet.message|upper }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Aucun tweet</p>
+    {% endfor %}
 
 
 {% endblock %}
