@@ -1,0 +1,4 @@
+# messages.fr.yml
+
+tweet.message.min_length: "Your tweet must be at least {{ limit }} characters long"
+tweet.message.min_length: "Your tweet cannot be longer than {{ limit }} characters"

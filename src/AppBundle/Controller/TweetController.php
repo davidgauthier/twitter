@@ -50,7 +50,7 @@ class TweetController extends Controller
             $em->persist($tweet);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Tweet bien enregistrée.');
+            $request->getSession()->getFlashBag()->add('success', $this->get('translator')->trans('tweet.message.succes'));
 
             // On redirige vers la page de visualisation du tweet nouvellement créé
             return $this->redirectToRoute('app_tweet_view', [

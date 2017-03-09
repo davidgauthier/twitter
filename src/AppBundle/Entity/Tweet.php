@@ -28,6 +28,12 @@ class Tweet
      * @ORM\Column(name="message", type="string", length=160)
      *
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 160,
+     *      minMessage = "tweet.message.min_length",
+     *      maxMessage = "tweet.message.min_length"
+     * )
      */
     private $message;
 

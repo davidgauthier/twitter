@@ -28,7 +28,28 @@
 
 
     <div class="container">
+
+
         <header>
+
+            {% if app.session.started and app.session.flashBag.peekAll is not empty %}
+                <div class="messages" style="margin-top: 10px;">
+                    {% for type, messages in app.session.flashBag.all %}
+                        {% for message in messages %}
+                            {# Bootstrap alert, see http://getbootstrap.com/components/#alerts #}
+                            <div class="alert alert-dismissible alert-{{ type }}" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                                {{ message|trans }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
             {% block header %}
                 <h1>Bienvenue sur notre site internet!</h1>
             {% endblock %}

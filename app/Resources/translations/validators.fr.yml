@@ -1,0 +1,4 @@
+# messages.fr.yml
+
+tweet.message.min_length: "Votre tweet doit faire au moins {{ limit }} caractères"
+tweet.message.min_length: "Votre tweet doit faire au max {{ limit }} caractères"

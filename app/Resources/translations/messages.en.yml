@@ -1,0 +1,6 @@
+# messages.fr.yml
+
+form:
+    message: "message"
+
+tweet.message.succes: "Tweet saved"

@@ -25,7 +25,7 @@
     {# Génération manuelle et éclatée : #}
     <div class="form-group">
         {#Génération du label. #}
-        {{ form_label(formTweet.message, "Message", {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_label(formTweet.message, null, {'label_attr': {'class': 'control-label'}}) }}
         {#Affichage des erreurs pour ce champ précis. #}
         {{ form_errors(formTweet.message) }}
         {#Génération de l'input. #}
