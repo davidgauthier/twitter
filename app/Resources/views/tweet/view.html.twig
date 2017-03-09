@@ -6,7 +6,7 @@
 
 
 {% block header %}
-    <h1>Le tweet d'id {{ tweet.id }} ( {{ tweet.createdAt|date("m/d/Y H:m:s") }})</h1>
+    <h1>Le tweet d'id {{ tweet.id }} ( {{ tweet.createdAt|date("d/m/Y H:i:s") }})</h1>
 {% endblock %}
 
 {% block content %}
