@@ -1,0 +1,32 @@
+services:
+#    app.example:
+#        class:     AppBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+#        calls:
+#            - [setService, ["@service_id"]]
+#        tags:
+#            - { name: twig.extension }
+#            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+
+
+
+
+
+
+    app.tweetmanager:
+        class: AppBundle\Manager\TweetManager
+        arguments:
+            - "@=service('doctrine').getManager()"
+            #- "@mailer"
+            - "%app.tweet.nb_last%"
+
+
+    app.email_messenger:
+        class: AppBundle\Messenger\EmailMessenger
+        arguments:
+            - "@mailer"
+            - "%app.email.admin%"
+
+
+

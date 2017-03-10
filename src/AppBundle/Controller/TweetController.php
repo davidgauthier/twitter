@@ -10,17 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TweetController extends Controller
 {
+
+
     /**
      * @Route("/", name="app_tweet_list", methods={"GET"} )
      */
     public function listAction(Request $request)
     {
-        $tweetRepository = $this->getDoctrine()->getManager()->getRepository(Tweet::class);
+        $tm = $this->container->get('app.tweetmanager');
 
-        // On récupère la liste des tweets
-        $listTweets = $tweetRepository->getLastTweets(
-            $this->getParameter('app.tweet.nb_last', 10)
-        );
+        $listTweets = $tm->getLast();
 
         // replace this example code with whatever you need
         return $this->render(':tweet:list.html.twig', [
@@ -29,13 +28,18 @@ class TweetController extends Controller
         );
     }
 
+
+
     /**
      * @Route("/tweet/new/", name="app_tweet_new", methods={"GET", "POST"} )
      */
     public function newAction(Request $request)
     {
+        $tm = $this->container->get('app.tweetmanager');
+
         // On crée un objet Tweet
-        $tweet = new Tweet();
+        $tweet = $tm->create();
+
         // On récup le form
         $formTweet = $this->createForm(TweetType::class, $tweet);
 
@@ -45,11 +49,14 @@ class TweetController extends Controller
 
         // On vérifie que les valeurs entrées sont correctes
         if ($formTweet->isSubmitted() && $formTweet->isValid()) {
-            // On enregistre notre objet $tweet dans la base de données
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($tweet);
-            $em->flush();
 
+            // On enregistre notre objet $tweet dans la base de données
+            $tm->save($tweet);
+
+            // Envoie de mail pour notifier un admin
+            $this->container->get('app.email_messenger')->sendTweetCreated($tweet);
+
+            // Pour notifier l'utilisateur
             $request->getSession()->getFlashBag()->add('success', $this->get('translator')->trans('tweet.message.succes'));
 
             // On redirige vers la page de visualisation du tweet nouvellement créé
@@ -67,6 +74,9 @@ class TweetController extends Controller
             ]
         );
     }
+
+
+
 
     /**
      * @Route("/tweet/{id}", name="app_tweet_view", methods={"GET"} )
@@ -87,4 +97,7 @@ class TweetController extends Controller
             ]
         );
     }
+
+
+
 }

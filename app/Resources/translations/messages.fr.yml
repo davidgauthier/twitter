@@ -3,4 +3,4 @@
 form:
     message: "message"
 
-tweet.message.succes: "Tweet enreg"
+tweet.message.succes: "Tweet enregistré"
