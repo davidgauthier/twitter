@@ -1,30 +1,22 @@
 <?php
 
-
 namespace AppBundle\Messenger;
-
 
 use AppBundle\Entity\Tweet;
 
-
 class EmailMessenger
 {
-
-
     private $mailer;
     private $emailAdmin;
 
-
     public function __construct(\Swift_Mailer $mailer, $emailAdmin)
     {
-        $this->mailer       = $mailer;
-        $this->emailAdmin   = $emailAdmin;
+        $this->mailer = $mailer;
+        $this->emailAdmin = $emailAdmin;
     }
-
 
     public function sendTweetCreated(Tweet $tweet)
     {
-
         $message = \Swift_Message::newInstance()
             ->setSubject('Super subject')
             ->setFrom($this->emailAdmin)
@@ -33,5 +25,4 @@ class EmailMessenger
 
         $this->mailer->send($message);
     }
-
 }

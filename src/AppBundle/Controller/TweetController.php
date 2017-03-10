@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TweetController extends Controller
 {
-
-
     /**
      * @Route("/", name="app_tweet_list", methods={"GET"} )
      */
@@ -27,8 +25,6 @@ class TweetController extends Controller
             ]
         );
     }
-
-
 
     /**
      * @Route("/tweet/new/", name="app_tweet_new", methods={"GET", "POST"} )
@@ -49,7 +45,6 @@ class TweetController extends Controller
 
         // On vérifie que les valeurs entrées sont correctes
         if ($formTweet->isSubmitted() && $formTweet->isValid()) {
-
             // On enregistre notre objet $tweet dans la base de données
             $tm->save($tweet);
 
@@ -75,9 +70,6 @@ class TweetController extends Controller
         );
     }
 
-
-
-
     /**
      * @Route("/tweet/{id}", name="app_tweet_view", methods={"GET"} )
      */
@@ -97,7 +89,4 @@ class TweetController extends Controller
             ]
         );
     }
-
-
-
 }
