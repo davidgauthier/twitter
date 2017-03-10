@@ -17,11 +17,8 @@ class TweetController extends Controller
     {
         $tm = $this->container->get('app.tweetmanager');
 
-        $listTweets = $tm->getLast();
-
-        // replace this example code with whatever you need
         return $this->render(':tweet:list.html.twig', [
-                'listTweets' => $listTweets,
+                'listTweets' => $tm->getLast(),
             ]
         );
     }
@@ -89,4 +86,38 @@ class TweetController extends Controller
             ]
         );
     }
+
+
+
+
+
+
+    /**
+     * @Route("/favourite-tweet/", name="app_tweet_favourites", methods={"GET"} )
+     */
+    public function favouritesAction(Request $request)
+    {
+        $loggedUser= $this->get('security.context')->getToken()->getUser();
+
+        $favouriteRepository = $this->getDoctrine()->getManager()->getRepository(Tweet::class);
+
+        // On récupère la liste des tweets
+        $tweet = $tweetRepository->getTweetById($id);
+
+        if (null === $tweet) {
+            throw  $this->createNotFoundException("Le tweet n'existe pas");
+        }
+        // replace this example code with whatever you need
+        return $this->render(':tweet:view.html.twig', [
+                'tweet' => $tweet,
+            ]
+        );
+    }
+
+
+
+
+
+
+
 }
