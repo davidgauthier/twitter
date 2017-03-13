@@ -16,7 +16,7 @@ class TweetManager
      * @param EntityManagerInterface $em
      * @param $nbLast
      */
-    public function __construct(EntityManagerInterface $em, $nbLast)
+    public function __construct(EntityManagerInterface $em, $nbLast = 10)
     {
         $this->em = $em;
         $this->nbLast = (int) $nbLast;
@@ -35,7 +35,9 @@ class TweetManager
      */
     public function save(Tweet $tweet)
     {
-        $this->em->persist($tweet);
+        if(null === $tweet->getId()) {
+            $this->em->persist($tweet);
+        }
         $this->em->flush();
     }
 

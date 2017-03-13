@@ -21,13 +21,51 @@
                     <li><a href="{{ path('app_tweet_list') }}">Derniers Tweets</a></li>
                     <li><a href="{{ path('app_tweet_new') }}">Poster un Tweet</a></li>
                     <li><a href="{{ path('homepage-test') }}">Twig Test</a></li>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li><a href="{{ path('app_tweet_favourites') }}">Mes Tweets Favoris</a></li>
+                    {% endif %}
                 </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+                        <p class="navbar-text">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</p>
+
+
+                        <li>
+                            <a href="{{ path('fos_user_security_logout') }}">
+                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a>
+                        </li>
+
+                    {% else %}
+                        <li><a href="{{ path('fos_user_registration_register') }}">S'inscrire</a></li>
+                        <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                    {% endif %}
+                </ul>
+
+
             </div>
         </div>
     </nav>
 
 
     <div class="container">
+
+
+        {% for type, messages in app.session.flashBag.all %}
+            {% for message in messages %}
+                <div class="{{ type }}">
+                    {{ message|trans({}, 'FOSUserBundle') }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div>
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+
 
 
         <header>

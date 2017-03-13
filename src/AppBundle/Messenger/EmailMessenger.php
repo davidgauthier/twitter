@@ -23,6 +23,11 @@ class EmailMessenger
             ->setTo('send.to@mail.net')
             ->setBody('Hello FAG :)');
 
+        $this->send($message);
+    }
+
+
+    public function send(\Swift_Message $message){
         $this->mailer->send($message);
     }
 }

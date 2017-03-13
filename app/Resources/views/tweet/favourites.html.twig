@@ -1,0 +1,38 @@
+{% extends "::layout.html.twig" %}
+
+
+{% block title 'Accueil' %}
+
+
+
+{% block header %}
+    <h1>Vos tweets favoris</h1>
+{% endblock %}
+
+{% block content %}
+
+
+    {% for index, favourite in favourites %}
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <a href="{{ path('app_tweet_view', {'id': favourite.tweet.id}) }}">
+                        ({{ favourite.tweet.createdAt|date("d/m/Y H:i:s") }}) {{ index }} : {{ favourite.tweet.message }}
+                    </a>
+
+                    <p>
+                        <a href="{{ path('app_tweet_remove_from_favourites', {'idTweet': favourite.id}) }}" class="btn btn-danger">Supprimer de mes favoris</a>
+                    </p>
+
+                </div>
+            </div>
+
+    {% else %}
+
+        <p>Aucun tweet en favoris</p>
+
+    {% endfor %}
+
+
+{% endblock %}

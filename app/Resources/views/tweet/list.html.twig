@@ -12,23 +12,25 @@
 {% block content %}
 
     {% for index, tweet in listTweets %}
-        {% if loop.first %}
+
+
             <div class="panel panel-default">
                 <div class="panel-body">
+
                     <a href="{{ path('app_tweet_view', {'id': tweet.id}) }}">
                         ({{ tweet.createdAt|date("d/m/Y H:i:s") }}) {{ index }} : {{ tweet.message }}
                     </a>
+
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <p>
+                            <a href="{{ path('app_tweet_add_to_favourites', {'idTweet': tweet.id}) }}" class="btn btn-success">Ajouter à mes favoris</a>
+                        </p>
+                    {% endif %}
+
                 </div>
             </div>
-        {% else %}
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <a href="{{ path('app_tweet_view', {'id': tweet.id}) }}">
-                        ({{ tweet.createdAt|date("d/m/Y H:i:s") }}) {{ index|upper }} : {{ tweet.message|upper }}
-                    </a>
-                </div>
-            </div>
-        {% endif %}
+
+
     {% else %}
         <p>Aucun tweet</p>
     {% endfor %}
