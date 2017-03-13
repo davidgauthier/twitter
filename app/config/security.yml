@@ -36,6 +36,9 @@ security:
             - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/admin/, role: ROLE_ADMIN }
+            - { path: ^/tweet/favourites/, role: ROLE_USER }
+            - { path: ^/tweet/remove-from-favourites/, role: ROLE_USER }
+            - { path: ^/tweet/add-to-favourites/, role: ROLE_USER }
 
 
 

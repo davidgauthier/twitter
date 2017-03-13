@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Favourite;
 use AppBundle\Entity\Tweet;
 use AppBundle\Form\TweetType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -93,28 +94,111 @@ class TweetController extends Controller
 
 
     /**
-     * @Route("/favourite-tweet/", name="app_tweet_favourites", methods={"GET"} )
+     * @Route("/tweet/favourites/", name="app_tweet_favourites", methods={"GET"} )
      */
     public function favouritesAction(Request $request)
     {
-        $loggedUser= $this->get('security.context')->getToken()->getUser();
+        $loggedUser= $this->get('security.token_storage')->getToken()->getUser();
 
-        $favouriteRepository = $this->getDoctrine()->getManager()->getRepository(Tweet::class);
+        $favouriteRepository = $this->getDoctrine()->getManager()->getRepository(Favourite::class);
 
-        // On récupère la liste des tweets
-        $tweet = $tweetRepository->getTweetById($id);
+        // On récupère la liste des tweets favoris pour l'utilisateur connecté
+        $favourites = $favouriteRepository->getFavouritesByUser($loggedUser, 10);// 2eme arg :limit
 
-        if (null === $tweet) {
-            throw  $this->createNotFoundException("Le tweet n'existe pas");
-        }
-        // replace this example code with whatever you need
-        return $this->render(':tweet:view.html.twig', [
-                'tweet' => $tweet,
+
+        return $this->render(':tweet:favourites.html.twig', [
+                'favourites' => $favourites,
             ]
         );
     }
 
 
+
+
+    /**
+     * @Route("/tweet/remove-from-favourites/{idTweet}", name="app_tweet_remove_from_favourites", methods={"GET"} )
+     */
+    public function removeTweetFromFavouritesAction(Request $request, $idFavourite)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $favouriteRepository = $em->getRepository(Favourite::class);
+        $tweetRepository = $em->getRepository(Tweet::class);
+
+        // On récupère le favourite
+        $favourite = $favouriteRepository->getOneById($idFavourite);
+
+        if (null === $favourite) {
+            throw  $this->createNotFoundException("Le favourite n'existe pas");
+        }
+
+
+        // On récupère le tweet
+        $tweet = $tweetRepository->getTweetById($favourite->getTweet()->getId());
+
+        if (null === $tweet) {
+            throw  $this->createNotFoundException("Le tweet n'existe pas");
+        }
+
+        $loggedUser= $this->get('security.token_storage')->getToken()->getUser();
+
+
+//        if($tweet->getUser()->getId() != $loggedUser->getId()){
+//
+//        }
+
+
+        // On récupère le favoris entre le tweet et l'user connecté passés en param
+        $favouriteToDelete = $favouriteRepository->getFavouriteByUserAndTweet($loggedUser, $tweet);
+
+        $em->remove($favouriteToDelete);
+        $em->flush();
+
+        return $this->redirectToRoute('app_tweet_favourites', [
+            ]
+        );
+
+    }
+
+
+
+
+
+
+    /**
+     * @Route("/tweet/add-to-favourites/{idTweet}", name="app_tweet_add_to_favourites", methods={"GET"} )
+     */
+    public function addTweetToFavouritesAction(Request $request, $idTweet)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $favouriteRepository = $em->getRepository(Favourite::class);
+        $tweetRepository = $em->getRepository(Tweet::class);
+
+        // On récupère la liste des tweets
+        $tweet = $tweetRepository->getTweetById($idTweet);
+
+        if (null === $tweet) {
+            throw  $this->createNotFoundException("Le tweet n'existe pas");
+        }
+
+
+        $loggedUser= $this->get('security.token_storage')->getToken()->getUser();
+
+
+        // On récupère le favoris entre le tweet et l'user connecté passés en param
+        $newFavourite = new Favourite();
+        $newFavourite->setUser($loggedUser);
+        $newFavourite->setTweet($tweet);
+
+        $em->persist($newFavourite);
+        $em->flush();
+
+        return $this->redirectToRoute('app_tweet_favourites', [
+            ]
+        );
+
+    }
 
 
 

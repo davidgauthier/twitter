@@ -12,27 +12,54 @@ class FavouriteRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
-    public function getFavouritesByUserId($userId, $limit = 10)
+//    public function getFavouritesByUser($user, $limit = 10)
+//    {
+//        $favourites = $this->createQueryBuilder('f')
+//            ->add('select', 'f, t')
+//            ->add('from', 'AppBundle:Favourite f')
+//            ->leftJoin('AppBundle:Tweet', 't')
+//            ->add('where', 'f.tweet.id = t.id')
+//            ->add('where', 'f.user = :user')
+//            ->setParameter('user', $user)
+//            //->orderBy('f.tweet.createdAt', 'DESC')
+//            ->setMaxResults($limit)
+//            ->getQuery()
+//            ->getResult();
+//
+//        return $favourites;
+//    }
+
+
+    public function getFavouritesByUser($user, $limit = 10)
     {
-        $videos = $this->createQueryBuilder('f')
-            ->add('select', 'f, u, t')
-            ->add('from', 'AppBundle:User u')
-            ->add('from', 'AppBundle:Tweet t')
-            ->leftJoin('AppBundle:Comment', 'c')
-            ->where('v.comment = c.id')
-             ... // some other conditions if you need
-             ->getQuery()
-        ->getResult();
-
-
-        return $this->createQueryBuilder('f')
-            ->select('f')
-            ->where('v.comment = c.id')
-            ->orderBy('f.tweet.createdAt', 'DESC')
-            //->orderBy('t.id', 'DESC')
+        $favourites = $this->createQueryBuilder('f')
+            ->add('select', 'f')
+            ->add('from', 'AppBundle:Favourite f')
+            ->add('where', 'f.user = :user')
+            ->setParameter('user', $user)
+            //->orderBy('f.tweet.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+
+        return $favourites;
+    }
+
+
+
+    public function getFavouriteByUserAndTweet($user, $tweet)
+    {
+        $favourite = $this->createQueryBuilder('f')
+            ->add('select', 'f')
+            ->add('from', 'AppBundle:Favourite f')
+            ->andWhere('f.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('f.tweet = :tweet')
+            ->setParameter('tweet', $tweet)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $favourite;
     }
 
 
